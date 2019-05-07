@@ -6,6 +6,7 @@ var cookieParser = require('cookie-parser');
 var logger = require('morgan');
 var mongoose = require('mongoose');
 var helmet = require('helmet');
+var config = require('./config');
 
 //import routes
 var indexRouter = require('./routes/index');
@@ -49,7 +50,7 @@ app.use(function(err, req, res, next) {
 });
 
 //Set up mongoose connection
-var mongoDB = 'mongodb+srv://admin:admin@cluster0-cuet7.mongodb.net/local_library?retryWrites=true';
+var mongoDB = process.env.MONGODB_URI || config.db_url;
 mongoose.connect(mongoDB, { useNewUrlParser: true });
 var db = mongoose.connection;
 db.on('error', console.error.bind(console, 'MongoDB connection error:'));
